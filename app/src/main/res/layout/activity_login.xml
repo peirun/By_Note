@@ -16,7 +16,7 @@
         app:srcCompat="@drawable/logo" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/loginEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/imageView"
@@ -26,22 +26,22 @@
         android:inputType="textEmailAddress" />
 
     <EditText
-        android:id="@+id/registerPassword"
+        android:id="@+id/loginPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/editText"
-        android:layout_below="@+id/editText"
+        android:layout_alignStart="@+id/loginEmail"
+        android:layout_below="@+id/loginEmail"
         android:layout_marginTop="14dp"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword" />
 
     <Button
-        android:id="@+id/sign_in"
+        android:id="@+id/loginButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/registerPassword"
-        android:layout_below="@+id/registerPassword"
+        android:layout_alignEnd="@+id/loginPassword"
+        android:layout_below="@+id/loginPassword"
         android:layout_marginTop="21dp"
         android:text="Sign in" />
 
@@ -49,8 +49,8 @@
         android:id="@+id/register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/sign_in"
-        android:layout_alignBottom="@+id/sign_in"
+        android:layout_alignBaseline="@+id/loginButton"
+        android:layout_alignBottom="@+id/loginButton"
         android:layout_alignStart="@+id/imageView"
         android:layout_marginStart="17dp"
         android:text="Register" />

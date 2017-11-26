@@ -28,7 +28,7 @@ public class RegisterActivity extends AppCompatActivity {
         userDB = new UserDB(RegisterActivity.this);
         nameEdit = (EditText) findViewById(R.id.registerName);
         emailEdit = (EditText) findViewById(R.id.registerEmail);
-        passwordEidt = (EditText) findViewById(R.id.registerPassword);
+        passwordEidt = (EditText) findViewById(R.id.loginPassword);
         registerButton =(Button) findViewById(R.id.registerButton);
         dbWriter = userDB.getWritableDatabase();
         registerButton.setOnClickListener(new View.OnClickListener() {
