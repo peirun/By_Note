@@ -10,12 +10,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class UserDB extends SQLiteOpenHelper {
 
-    private static final String TABLE_NAME = "users";
-    private static final String ID = "idUser";
-    private static final String USER_NAME = "userName";
-    private static final String EMAIL = "email";
-    private static final String PASSWORD = "password";
-    private static final String TIME = "time";
+    public static final String TABLE_NAME = "users";
+    public static final String ID = "idUser";
+    public static final String USER_NAME = "userName";
+    public static final String EMAIL = "email";
+    public static final String PASSWORD = "password";
+    public static final String TIME = "time";
 
     public UserDB(Context context) {
         super(context, TABLE_NAME, null, 1);

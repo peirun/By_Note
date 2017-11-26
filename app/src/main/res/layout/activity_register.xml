@@ -7,10 +7,10 @@
     tools:context="fr.utt.peirun_zhongping.by_note.RegisterActivity">
 
     <EditText
-        android:id="@+id/name"
+        android:id="@+id/registerName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView2"
+        android:layout_below="@+id/title"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="21dp"
         android:ems="10"
@@ -20,11 +20,11 @@
         tools:layout_editor_absoluteY="169dp" />
 
     <EditText
-        android:id="@+id/email"
+        android:id="@+id/registerEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/name"
-        android:layout_below="@+id/name"
+        android:layout_alignStart="@+id/registerName"
+        android:layout_below="@+id/registerName"
         android:layout_marginTop="11dp"
         android:ems="10"
         android:hint="Email"
@@ -33,7 +33,7 @@
         tools:layout_editor_absoluteY="232dp" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/title"
         android:layout_width="245dp"
         android:layout_height="98dp"
         android:layout_below="@+id/register"
@@ -46,20 +46,20 @@
         tools:layout_editor_absoluteY="54dp" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/registerButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/password"
+        android:layout_below="@+id/registerPassword"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="12dp"
         android:text="Register" />
 
     <EditText
-        android:id="@+id/password"
+        android:id="@+id/registerPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/email"
-        android:layout_below="@+id/email"
+        android:layout_alignStart="@+id/registerEmail"
+        android:layout_below="@+id/registerEmail"
         android:layout_marginTop="14dp"
         android:ems="10"
         android:hint="password"
