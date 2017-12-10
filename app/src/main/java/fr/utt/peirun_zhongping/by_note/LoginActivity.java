@@ -7,12 +7,12 @@ import android.database.sqlite.SQLiteException;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -25,16 +25,19 @@ public class LoginActivity extends AppCompatActivity {
     private String password;
     private UserDB userDB;
     private SQLiteDatabase userRead;
+    private UserSessionManager session;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         emailEdit = (EditText) findViewById(R.id.loginEmail);
         passwordEdit = (EditText) findViewById(R.id.loginPassword);
         registerText = (TextView) findViewById(R.id.register);
         loginButton = (Button) findViewById(R.id.loginButton);
+
+        session = new UserSessionManager(getApplicationContext());
 
         if (userDB == null) {
             userDB = new UserDB(this);
@@ -55,8 +58,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 login = emailEdit.getText().toString();
                 password = passwordEdit.getText().toString();
-                Log.d("yu", "yu");
-
                 if (login.equals("") || password.equals("")) {
 
                     new AlertDialog.Builder(LoginActivity.this).setTitle("Erreur")
@@ -64,8 +65,9 @@ public class LoginActivity extends AppCompatActivity {
                             .show();
                 } else {
                     if(isUserinfo(login, password)){
-                        Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(i);
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
                     }
                 }
             }
@@ -79,16 +81,19 @@ public class LoginActivity extends AppCompatActivity {
 
             Cursor cursor = userRead.rawQuery(str, new String []{login,pwd});
             if(cursor.getCount()<=0){
-                Toast.makeText(LoginActivity.this, "This is my  isuserinfo!",
-                        Toast.LENGTH_LONG).show();
                 new AlertDialog.Builder(LoginActivity.this).setTitle("Erreur")
                         .setMessage("Login or password is not correct！").setPositiveButton("Confirm", null)
                         .show();
                 return false;
             }else{
-                new AlertDialog.Builder(LoginActivity.this).setTitle("Correct")
-                        .setMessage("Sign in successfully").setPositiveButton("Confirm", null)
-                        .show();
+                cursor.moveToFirst();
+                session.createUserLoginSession(cursor.getInt(cursor.getColumnIndex(UserDB.USER_ID)), cursor.getString(cursor.getColumnIndex(UserDB.USER_NAME)),
+                        cursor.getString(cursor.getColumnIndex(UserDB.EMAIL)));
+//                user = User.getInstance();
+//                user.setUserID(cursor.getInt(cursor.getColumnIndex(UserDB.USER_ID)));
+//                user.setUserName(cursor.getString(cursor.getColumnIndex(UserDB.USER_NAME)));
+//                user.setUserEmail(cursor.getString(cursor.getColumnIndex(UserDB.EMAIL)));
+                Toast.makeText(getApplicationContext(), "Sign in successfully", Toast.LENGTH_SHORT).show();
                 return true;
             }
 

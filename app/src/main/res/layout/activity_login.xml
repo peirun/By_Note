@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     tools:context="fr.utt.peirun_zhongping.by_note.LoginActivity">
 
+
+
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
