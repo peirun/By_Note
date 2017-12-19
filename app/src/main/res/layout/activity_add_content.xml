@@ -4,15 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="fr.utt.peirun_zhongping.by_note.MainActivity"
-    tools:showIn="@layout/app_bar_main">
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/ly_content">
-
-    </FrameLayout>
+    tools:context="fr.utt.peirun_zhongping.by_note.AddContent">
 
 </android.support.constraint.ConstraintLayout>
