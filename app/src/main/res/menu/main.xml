@@ -5,11 +5,21 @@ xmlns:tools="http://schemas.android.com/tools"
 tools:context="com.example.toolbar.MainActivity"
     >
 <!-- "Mark Favorite", should appear as action button if possible -->
-<item
-    android:id="@+id/action_add"
+    <item
+    android:id="@+id/content_add"
     android:icon="@drawable/ic_note_add_black_24dp"
     app:showAsAction="ifRoom"
     android:title="addNote" />
+    <item
+        android:id="@+id/photo_add"
+        android:icon="@drawable/ic_add_a_photo_black_24dp"
+        app:showAsAction="ifRoom"
+        android:title="addNote" />
+    <item
+        android:id="@+id/vedio_add"
+        android:icon="@drawable/ic_switch_video_black_24dp"
+        app:showAsAction="ifRoom"
+        android:title="addNote" />
 
 
 </menu>

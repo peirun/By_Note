@@ -1,5 +1,6 @@
 package fr.utt.peirun_zhongping.by_note;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -117,13 +118,26 @@ public class MainActivity extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
+        Intent intent = new Intent(MainActivity.this, AddContent.class);
+        intent.putExtra("userid", userId);
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_add) {
-
+        if (id == R.id.content_add) {
+            intent.putExtra("flag", "content");
+            startActivity(intent);
             return true;
         }
 
+        if(id == R.id.photo_add){
+            intent.putExtra("flag", "photo");
+            startActivity(intent);
+            return true;
+        }
+
+        if(id == R.id.vedio_add){
+            intent.putExtra("flag", "video");
+            startActivity(intent);
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 

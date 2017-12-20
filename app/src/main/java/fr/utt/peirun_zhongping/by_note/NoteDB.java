@@ -30,8 +30,8 @@ public class NoteDB extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_NAME + " (" + NOTE_ID
                 + " INTEGER PRIMARY KEY AUTOINCREMENT," + CONTENT
                 + " TEXT NOT NULL," + IMAGE + " TEXT NOT NULL," + VIDEO
-                + " TEXT NOT NULL," + TIME + " TEXT NOT NULL," + STARRED + "TEXT NOT NULL,"
-                + FOLDER_NAME + "TEXT NOT NULL," + USERID + "INTEGER NOT NULL)");
+                + " TEXT NOT NULL," + TIME + " TEXT NOT NULL," + STARRED + " TEXT NOT NULL,"
+                + FOLDER_NAME + " TEXT NOT NULL," + USERID + " INTEGER NOT NULL)");
     }
 
     @Override

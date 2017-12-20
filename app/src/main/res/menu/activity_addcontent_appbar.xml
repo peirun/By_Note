@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.toolbar.AddContent"
+    >
+    <!-- "Mark Favorite", should appear as action button if possible -->
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_personal"
+            android:icon="@drawable/personal"
+            android:title="Personal" />
+        <item
+            android:id="@+id/nav_work"
+            android:icon="@drawable/work"
+            android:title="Work" />
+
+    </group>
+    <item
+        android:id="@+id/save_note"
+        android:icon="@drawable/ic_done_black_24dp"
+        app:showAsAction="ifRoom"
+        android:title="saveNote" />
+    <item
+        android:id="@+id/back_from_note"
+        android:icon="@drawable/ic_clear_black_24dp"
+        app:showAsAction="ifRoom"
+        android:title="cancelNote" />
+</menu>

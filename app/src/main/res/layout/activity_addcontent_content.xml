@@ -5,24 +5,21 @@
     android:orientation="vertical" >
 
     <ImageView
-        android:id="@+id/c_img"
+        android:id="@+id/s_img"
         android:layout_width="300dp"
         android:layout_height="500dp"
         android:visibility="gone" />
 
     <VideoView
-        android:id="@+id/c_video"
+        android:id="@+id/s_video"
         android:layout_width="300dp"
         android:layout_height="500dp"
         android:visibility="gone" />
 
-    <EditText
-        android:id="@+id/edit_text"
+    <TextView
+        android:id="@+id/s_tv"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@null"
-        android:gravity="top"
-        android:hint="有了记事本，我再也不会忘记事情了" />
+        android:layout_weight="1" />
 
 </LinearLayout>
