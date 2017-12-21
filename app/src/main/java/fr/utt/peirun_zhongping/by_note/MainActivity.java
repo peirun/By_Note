@@ -1,6 +1,7 @@
 package fr.utt.peirun_zhongping.by_note;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,7 +20,7 @@ import android.widget.TextView;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, NoteFragment.OnFragmentInteractionListener {
 
     private int userId;
     private String userName;
@@ -146,13 +148,13 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        Fragment itemstarFragment = new ItemstarFragment();
+        Fragment noteFragment = new NoteFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
 //        ItemstarFragment itemstarFragment = new ItemstarFragment();
 //        getFragmentManager().beginTransaction().add()
         if (id == R.id.nav_personal) {
-            transaction.replace(R.id.ly_content, itemstarFragment);
+            transaction.replace(R.id.ly_content, noteFragment).commit();
             // Handle the camera action
         } else if (id == R.id.nav_work) {
 
@@ -166,5 +168,10 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
