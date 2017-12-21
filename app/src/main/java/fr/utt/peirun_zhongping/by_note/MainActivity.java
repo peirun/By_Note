@@ -93,7 +93,9 @@ public class MainActivity extends AppCompatActivity
         textEail = (TextView) headerView.findViewById(R.id.textEmail);
         textEail.setText(userEmail);
         navigationView.setNavigationItemSelectedListener(this);
-
+        Fragment noteFragment = new NoteFragment();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.ly_content, noteFragment).commit();
     }
 
     @Override
@@ -150,18 +152,34 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
         Fragment noteFragment = new NoteFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        Bundle bundle = new Bundle();
 
-//        ItemstarFragment itemstarFragment = new ItemstarFragment();
-//        getFragmentManager().beginTransaction().add()
-        if (id == R.id.nav_personal) {
+        if (id == R.id.nav_note) {
+            bundle.putString("params", "note");
+            // set MyFragment Arguments
+            noteFragment.setArguments(bundle);
             transaction.replace(R.id.ly_content, noteFragment).commit();
             // Handle the camera action
+        } else if (id == R.id.nav_personal) {
+            bundle.putString("params", "personal");
+            // set MyFragment Arguments
+            noteFragment.setArguments(bundle);
+            transaction.replace(R.id.ly_content, noteFragment).commit();
         } else if (id == R.id.nav_work) {
-
+            bundle.putString("params", "work");
+            // set MyFragment Arguments
+            noteFragment.setArguments(bundle);
+            transaction.replace(R.id.ly_content, noteFragment).commit();
         } else if (id == R.id.nav_study) {
-
+            bundle.putString("params", "study");
+            // set MyFragment Arguments
+            noteFragment.setArguments(bundle);
+            transaction.replace(R.id.ly_content, noteFragment).commit();
         } else if (id == R.id.nav_star) {
-
+            bundle.putString("params", "starred");
+            // set MyFragment Arguments
+            noteFragment.setArguments(bundle);
+            transaction.replace(R.id.ly_content, noteFragment).commit();
         } else if (id == R.id.nav_deconnection) {
 
         }

@@ -118,7 +118,7 @@ public class AddContent extends AppCompatActivity implements View.OnClickListene
         cv.put(NoteDB.TIME, getTime());
         cv.put(NoteDB.IMAGE, imageFile + "");
         cv.put(NoteDB.VIDEO, videoFile + "");
-        cv.put(NoteDB.STARRED, true);
+        cv.put(NoteDB.STARRED, "true");
         cv.put(NoteDB.FOLDER_NAME, "personal");
         cv.put(NoteDB.USERID, userId);
         dbWriter.insert(NoteDB.TABLE_NAME, null, cv);

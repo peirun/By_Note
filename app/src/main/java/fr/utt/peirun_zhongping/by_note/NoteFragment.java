@@ -27,7 +27,6 @@ public class NoteFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
     private ListView lv;
     private MyAdapter adapter;
     private NoteDB noteDB;
@@ -37,7 +36,6 @@ public class NoteFragment extends Fragment {
 
     // TODO: Rename and change types of parameters
     private String mParam1;
-    private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
@@ -58,7 +56,6 @@ public class NoteFragment extends Fragment {
         NoteFragment fragment = new NoteFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -67,8 +64,7 @@ public class NoteFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mParam1 = getArguments().getString("params");
         }
     }
 
@@ -126,8 +122,16 @@ public class NoteFragment extends Fragment {
     }
 
     public void selectDB() {
-        cursor = dbReader.query(NoteDB.TABLE_NAME, null, null, null, null,
-                null, null);
+        if(mParam1 == "note" || mParam1 == null){
+            cursor = dbReader.query(NoteDB.TABLE_NAME, null, null, null, null,
+                    null, null);
+        }else if(mParam1 == "starred"){
+            cursor = dbReader.query(NoteDB.TABLE_NAME, null, NoteDB.STARRED + "=?", new String[] { "true" }, null,
+                    null, null);
+        }else{
+            cursor = dbReader.query(NoteDB.TABLE_NAME, null, NoteDB.FOLDER_NAME + "=?", new String[] { mParam1 }, null,
+                    null, null);
+        }
         adapter = new MyAdapter(getActivity(), cursor);
         lv.setAdapter(adapter);
     }
