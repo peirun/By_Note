@@ -5,17 +5,12 @@
     tools:context="com.example.toolbar.AddContent"
     >
     <!-- "Mark Favorite", should appear as action button if possible -->
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_personal"
-            android:icon="@drawable/personal"
-            android:title="Personal" />
-        <item
-            android:id="@+id/nav_work"
-            android:icon="@drawable/work"
-            android:title="Work" />
 
-    </group>
+    <item
+        android:id="@+id/note_starred"
+        android:icon="@drawable/star"
+        app:showAsAction="ifRoom"
+        android:title="saveNote" />
     <item
         android:id="@+id/save_note"
         android:icon="@drawable/ic_done_black_24dp"

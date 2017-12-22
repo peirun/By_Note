@@ -59,9 +59,9 @@ public class MyAdapter extends BaseAdapter {
         String url_video = cursor.getString(cursor.getColumnIndex("video"));
         contenttv.setText(content);
         timetv.setText(time);
+        imgiv.setImageBitmap(getImageThumbnail(url_photo, 200, 200));
         videoiv.setImageBitmap(getVideoThumbnail(url_video, 200, 200,
                 MediaStore.Images.Thumbnails.MICRO_KIND));
-        imgiv.setImageBitmap(getImageThumbnail(url_photo, 200, 200));
         return layout;
     }
 
