@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.toolbar.AddContent"
+    >
+    <!-- "Mark Favorite", should appear as action button if possible -->
+
+    <item
+        android:id="@+id/note_starred"
+        android:icon="@drawable/star_starred"
+        app:showAsAction="ifRoom"
+        android:title="starredNote" />
+    <item
+        android:id="@+id/save_note"
+        android:icon="@drawable/ic_done_black_24dp"
+        app:showAsAction="ifRoom"
+        android:title="saveNote" />
+    <item
+        android:id="@+id/back_from_note"
+        android:icon="@drawable/ic_clear_black_24dp"
+        app:showAsAction="ifRoom"
+        android:title="cancelNote" />
+</menu>

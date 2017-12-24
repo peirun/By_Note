@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity
     private TextView textName;
     private TextView textEail;
     private NavigationView navigationView;
+    private Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,6 +94,7 @@ public class MainActivity extends AppCompatActivity
         textEail = (TextView) headerView.findViewById(R.id.textEmail);
         textEail.setText(userEmail);
         navigationView.setNavigationItemSelectedListener(this);
+        toolbar.setTitle("Note");
         Fragment noteFragment = new NoteFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.ly_content, noteFragment).commit();
@@ -165,21 +167,25 @@ public class MainActivity extends AppCompatActivity
             // set MyFragment Arguments
             noteFragment.setArguments(bundle);
             transaction.replace(R.id.ly_content, noteFragment).commit();
+            getSupportActionBar().setTitle("Personal");
         } else if (id == R.id.nav_work) {
             bundle.putString("params", "work");
             // set MyFragment Arguments
             noteFragment.setArguments(bundle);
             transaction.replace(R.id.ly_content, noteFragment).commit();
+            getSupportActionBar().setTitle("Work");
         } else if (id == R.id.nav_study) {
             bundle.putString("params", "study");
             // set MyFragment Arguments
             noteFragment.setArguments(bundle);
             transaction.replace(R.id.ly_content, noteFragment).commit();
+            getSupportActionBar().setTitle("Study");
         } else if (id == R.id.nav_star) {
             bundle.putString("params", "starred");
             // set MyFragment Arguments
             noteFragment.setArguments(bundle);
             transaction.replace(R.id.ly_content, noteFragment).commit();
+            getSupportActionBar().setTitle("Starred");
         } else if (id == R.id.nav_deconnection) {
 
         }

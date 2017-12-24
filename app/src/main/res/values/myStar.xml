@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="myStar">
+        <item name="android:color">#defad314</item>
+    </style>
+</resources>

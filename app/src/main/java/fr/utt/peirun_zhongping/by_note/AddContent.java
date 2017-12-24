@@ -1,22 +1,34 @@
 package fr.utt.peirun_zhongping.by_note;
 
+import android.annotation.SuppressLint;
 import android.app.TaskStackBuilder;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.NavUtils;
+import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.view.menu.MenuBuilder;
+import android.support.v7.view.menu.MenuPopupHelper;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -39,7 +51,8 @@ public class AddContent extends AppCompatActivity implements View.OnClickListene
     private SQLiteDatabase dbWriter;
     private File imageFile, videoFile;
     private int userId;
-
+    private Menu menu;
+    private String isStarred;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +77,7 @@ public class AddContent extends AppCompatActivity implements View.OnClickListene
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+        this.menu = menu;
         getMenuInflater().inflate(R.menu.activity_addcontent_appbar, menu);
         return true;
     }
@@ -80,10 +94,11 @@ public class AddContent extends AppCompatActivity implements View.OnClickListene
                 addDB();
                 finish();
                 break;
-            case R.id.back_from_note:
-                finish();
+            case R.id.note_starred:
+                Drawable d = getResources().getDrawable(R.drawable.star_starred);
+                menu.getItem(0).setIcon(d);
+                isStarred = "true";
                 break;
-
         }
         return super.onOptionsItemSelected(item);
     }
