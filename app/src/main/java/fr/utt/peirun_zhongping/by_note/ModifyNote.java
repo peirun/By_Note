@@ -80,7 +80,7 @@ public class ModifyNote extends AppCompatActivity {
                 startActivity(upIntent);
                 break;
             case R.id.save_note:
-                addDB();
+                updateDB();
                 finish();
                 break;
             case R.id.delete_note:
@@ -88,9 +88,16 @@ public class ModifyNote extends AppCompatActivity {
                 finish();
                 break;
             case R.id.note_starred:
-                Drawable d = getResources().getDrawable(R.drawable.star_starred);
-                menu.getItem(0).setIcon(d);
-                isStarred = "true";
+                if(isStarred.equals("true")){
+                    Drawable d = getResources().getDrawable(R.drawable.star);
+                    menu.getItem(0).setIcon(d);
+                    isStarred = "false";
+                }else{
+                    Drawable d = getResources().getDrawable(R.drawable.star_starred);
+                    menu.getItem(0).setIcon(d);
+                    isStarred = "true";
+                }
+
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -117,6 +124,12 @@ public class ModifyNote extends AppCompatActivity {
 
     }
 
+    public void updateDB(){
+        ContentValues cv = new ContentValues();
+        cv.put(NoteDB.CONTENT, editText.getText().toString());
+        cv.put(NoteDB.TIME, getTime());
+        dbWriter.update(NoteDB.TABLE_NAME, cv, "note_id="+note_id, null);
+    }
     public void addDB() {
         ContentValues cv = new ContentValues();
         cv.put(NoteDB.CONTENT, editText.getText().toString());
