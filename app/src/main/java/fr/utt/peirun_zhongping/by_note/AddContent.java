@@ -34,6 +34,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import java.io.File;
@@ -53,6 +54,7 @@ public class AddContent extends AppCompatActivity implements View.OnClickListene
     private int userId;
     private Menu menu;
     private String isStarred;
+    private String folder_name;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +64,7 @@ public class AddContent extends AppCompatActivity implements View.OnClickListene
 
         valueOfFlag = getIntent().getStringExtra("flag");
         userId = getIntent().getIntExtra("userid",1);
+        folder_name = getIntent().getStringExtra(NoteDB.FOLDER_NAME);
 //        savebtn = (Button) findViewById(R.id.save);
 //        deletebtn = (Button) findViewById(R.id.delete);
         editText = (EditText) findViewById(R.id.edit_text);
@@ -71,6 +74,8 @@ public class AddContent extends AppCompatActivity implements View.OnClickListene
 //        deletebtn.setOnClickListener(this);
         noteDB = new NoteDB(this);
         dbWriter = noteDB.getWritableDatabase();
+        isStarred = "false";
+
         initView();
     }
 
@@ -79,6 +84,13 @@ public class AddContent extends AppCompatActivity implements View.OnClickListene
         // Inflate the menu; this adds items to the action bar if it is present.
         this.menu = menu;
         getMenuInflater().inflate(R.menu.activity_addcontent_appbar, menu);
+//        Toast.makeText(AddContent.this,folder_name,Toast.LENGTH_LONG).show();
+        getSupportActionBar().setTitle(folder_name);
+        if(folder_name.equals("Starred")){
+            Drawable d = getResources().getDrawable(R.drawable.star_starred);
+            menu.getItem(0).setIcon(d);
+            isStarred = "true";
+        }
         return true;
     }
 
@@ -95,9 +107,15 @@ public class AddContent extends AppCompatActivity implements View.OnClickListene
                 finish();
                 break;
             case R.id.note_starred:
-                Drawable d = getResources().getDrawable(R.drawable.star_starred);
-                menu.getItem(0).setIcon(d);
-                isStarred = "true";
+                if(isStarred.equals("true")){
+                    Drawable d = getResources().getDrawable(R.drawable.star);
+                    menu.getItem(0).setIcon(d);
+                    isStarred = "false";
+                }else{
+                    Drawable d = getResources().getDrawable(R.drawable.star_starred);
+                    menu.getItem(0).setIcon(d);
+                    isStarred = "true";
+                }
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -125,6 +143,7 @@ public class AddContent extends AppCompatActivity implements View.OnClickListene
             video.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(videoFile));
             startActivityForResult(video, 2);
         }
+
     }
 
     public void addDB() {
@@ -133,8 +152,8 @@ public class AddContent extends AppCompatActivity implements View.OnClickListene
         cv.put(NoteDB.TIME, getTime());
         cv.put(NoteDB.IMAGE, imageFile + "");
         cv.put(NoteDB.VIDEO, videoFile + "");
-        cv.put(NoteDB.STARRED, "true");
-        cv.put(NoteDB.FOLDER_NAME, "personal");
+        cv.put(NoteDB.STARRED, isStarred);
+        cv.put(NoteDB.FOLDER_NAME, folder_name);
         cv.put(NoteDB.USERID, userId);
         dbWriter.insert(NoteDB.TABLE_NAME, null, cv);
     }

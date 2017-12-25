@@ -118,10 +118,10 @@ public class NoteFragment extends Fragment {
     }
 
     public void selectDB() {
-        if(mParam1 == "note" || mParam1 == null){
+        if(mParam1 == "Note" || mParam1 == null){
             cursor = dbReader.query(NoteDB.TABLE_NAME, null, null, null, null,
                     null, null);
-        }else if(mParam1 == "starred"){
+        }else if(mParam1 == "Starred"){
             cursor = dbReader.query(NoteDB.TABLE_NAME, null, NoteDB.STARRED + "=?", new String[] { "true" }, null,
                     null, null);
         }else{

@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity
     private TextView textEail;
     private NavigationView navigationView;
     private Toolbar toolbar;
+    private String folder_name;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,6 +96,7 @@ public class MainActivity extends AppCompatActivity
         textEail.setText(userEmail);
         navigationView.setNavigationItemSelectedListener(this);
         toolbar.setTitle("Note");
+        folder_name = "note";
         Fragment noteFragment = new NoteFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.ly_content, noteFragment).commit();
@@ -129,18 +131,21 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.content_add) {
             intent.putExtra("flag", "content");
+            intent.putExtra(NoteDB.FOLDER_NAME, folder_name);
             startActivity(intent);
             return true;
         }
 
         if(id == R.id.photo_add){
             intent.putExtra("flag", "photo");
+            intent.putExtra(NoteDB.FOLDER_NAME, folder_name);
             startActivity(intent);
             return true;
         }
 
         if(id == R.id.vedio_add){
             intent.putExtra("flag", "video");
+            intent.putExtra(NoteDB.FOLDER_NAME, folder_name);
             startActivity(intent);
             return true;
         }
@@ -157,35 +162,40 @@ public class MainActivity extends AppCompatActivity
         Bundle bundle = new Bundle();
 
         if (id == R.id.nav_note) {
-            bundle.putString("params", "note");
+            bundle.putString("params", "Note");
             // set MyFragment Arguments
             noteFragment.setArguments(bundle);
             transaction.replace(R.id.ly_content, noteFragment).commit();
+            folder_name = "Note";
             // Handle the camera action
         } else if (id == R.id.nav_personal) {
-            bundle.putString("params", "personal");
+            bundle.putString("params", "Personal");
             // set MyFragment Arguments
             noteFragment.setArguments(bundle);
             transaction.replace(R.id.ly_content, noteFragment).commit();
             getSupportActionBar().setTitle("Personal");
+            folder_name = "Personal";
         } else if (id == R.id.nav_work) {
-            bundle.putString("params", "work");
+            bundle.putString("params", "Work");
             // set MyFragment Arguments
             noteFragment.setArguments(bundle);
             transaction.replace(R.id.ly_content, noteFragment).commit();
             getSupportActionBar().setTitle("Work");
+            folder_name = "Work";
         } else if (id == R.id.nav_study) {
-            bundle.putString("params", "study");
+            bundle.putString("params", "Study");
             // set MyFragment Arguments
             noteFragment.setArguments(bundle);
             transaction.replace(R.id.ly_content, noteFragment).commit();
             getSupportActionBar().setTitle("Study");
+            folder_name = "Study";
         } else if (id == R.id.nav_star) {
-            bundle.putString("params", "starred");
+            bundle.putString("params", "Starred");
             // set MyFragment Arguments
             noteFragment.setArguments(bundle);
             transaction.replace(R.id.ly_content, noteFragment).commit();
             getSupportActionBar().setTitle("Starred");
+            folder_name = "Note";
         } else if (id == R.id.nav_deconnection) {
 
         }

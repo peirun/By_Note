@@ -24,6 +24,6 @@
         android:layout_weight="1"
         android:background="@null"
         android:gravity="top"
-        android:hint="有了记事本，我再也不会忘记事情了" />
+        android:hint="Avec BY_Note, je n'oublierai plus jamais les choses" />
 
 </LinearLayout>

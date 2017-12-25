@@ -40,6 +40,7 @@ public class ModifyNote extends AppCompatActivity {
     private String isStarred;
     private SQLiteDatabase dbReader;
     private Cursor cursor;
+    private String folder_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,7 @@ public class ModifyNote extends AppCompatActivity {
 
         note_id = getIntent().getIntExtra(NoteDB.NOTE_ID,0);
         isStarred = getIntent().getStringExtra(NoteDB.STARRED);
+        folder_name = getIntent().getStringExtra(NoteDB.FOLDER_NAME);
         userId = getIntent().getIntExtra("userid",0);
         editText = (EditText) findViewById(R.id.m_et);
         m_img = (ImageView) findViewById(R.id.m_img);
@@ -68,6 +70,7 @@ public class ModifyNote extends AppCompatActivity {
             Drawable d = getResources().getDrawable(R.drawable.star_starred);
             menu.getItem(0).setIcon(d);
         }
+        getSupportActionBar().setTitle(folder_name);
         return true;
     }
 
@@ -121,27 +124,16 @@ public class ModifyNote extends AppCompatActivity {
         m_img.setImageBitmap(bitmap);
         v_video.setVideoURI(Uri.parse(videoUri));
         v_video.start();
-
     }
-
+    // update data
     public void updateDB(){
         ContentValues cv = new ContentValues();
         cv.put(NoteDB.CONTENT, editText.getText().toString());
+        cv.put(NoteDB.STARRED, isStarred);
         cv.put(NoteDB.TIME, getTime());
         dbWriter.update(NoteDB.TABLE_NAME, cv, "note_id="+note_id, null);
     }
-    public void addDB() {
-        ContentValues cv = new ContentValues();
-        cv.put(NoteDB.CONTENT, editText.getText().toString());
-        cv.put(NoteDB.TIME, getTime());
-        cv.put(NoteDB.IMAGE, imageFile + "");
-        cv.put(NoteDB.VIDEO, videoFile + "");
-        cv.put(NoteDB.STARRED, "true");
-        cv.put(NoteDB.FOLDER_NAME, "personal");
-        cv.put(NoteDB.USERID, userId);
-        dbWriter.insert(NoteDB.TABLE_NAME, null, cv);
-    }
-
+    // get current time
     private String getTime() {
         SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date curDate = new Date();
