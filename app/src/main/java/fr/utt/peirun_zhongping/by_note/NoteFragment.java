@@ -105,18 +105,14 @@ public class NoteFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 cursor.moveToPosition(position);
-//                Intent i = new Intent(getActivity().this, SelectAct.class);
-//                i.putExtra(NoteDB.ID,
-//                        cursor.getInt(cursor.getColumnIndex(NoteDB.ID)));
-//                i.putExtra(NoteDB.CONTENT, cursor.getString(cursor
-//                        .getColumnIndex(NoteDB.CONTENT)));
-//                i.putExtra(NoteDB.TIME,
-//                        cursor.getString(cursor.getColumnIndex(NoteDB.TIME)));
-//                i.putExtra(NoteDB.PATH,
-//                        cursor.getString(cursor.getColumnIndex(NoteDB.PATH)));
-//                i.putExtra(NoteDB.VIDEO,
-//                        cursor.getString(cursor.getColumnIndex(NoteDB.VIDEO)));
-//                startActivity(i);
+                Intent i = new Intent(getActivity(), ModifyNote.class);
+                i.putExtra(NoteDB.NOTE_ID,
+                        cursor.getInt(cursor.getColumnIndex(NoteDB.NOTE_ID)));
+                i.putExtra(NoteDB.STARRED,
+                        cursor.getString(cursor.getColumnIndex(NoteDB.STARRED)));
+                i.putExtra(NoteDB.FOLDER_NAME,
+                        cursor.getString(cursor.getColumnIndex(NoteDB.FOLDER_NAME)));
+                startActivity(i);
             }
         });
     }
