@@ -1,6 +1,7 @@
 package fr.utt.peirun_zhongping.by_note;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.TaskStackBuilder;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -13,10 +14,12 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.Icon;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.NavUtils;
+import android.support.v4.content.FileProvider;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -38,6 +41,7 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -55,6 +59,20 @@ public class AddContent extends AppCompatActivity implements View.OnClickListene
     private Menu menu;
     private String isStarred;
     private String folder_name;
+    // take photo
+    private String mCurrentPhotoPath;
+    private String mCurrentVideoPath;
+    private static final String JPEG_FILE_PREFIX = "IMG_";
+    private static final String JPEG_FILE_SUFFIX = ".jpg";
+    private static final String BITMAP_STORAGE_KEY = "viewbitmap";
+    private static final String IMAGEVIEW_VISIBILITY_STORAGE_KEY = "imageviewvisibility";
+    private ImageView mImageView;
+    private Bitmap mImageBitmap;
+
+    private static final String VIDEO_STORAGE_KEY = "viewvideo";
+    private static final String VIDEOVIEW_VISIBILITY_STORAGE_KEY = "videoviewvisibility";
+    private VideoView mVideoView;
+    private Uri mVideoUri;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +93,7 @@ public class AddContent extends AppCompatActivity implements View.OnClickListene
         noteDB = new NoteDB(this);
         dbWriter = noteDB.getWritableDatabase();
         isStarred = "false";
+
 
         initView();
     }
@@ -128,22 +147,72 @@ public class AddContent extends AppCompatActivity implements View.OnClickListene
         if (valueOfFlag.equals("photo")) {
             c_img.setVisibility(View.VISIBLE);
             v_video.setVisibility(View.GONE);
-            Intent img = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            imageFile = new File(Environment.getExternalStorageDirectory()
-                    .getAbsoluteFile() + "/" + getTime() + ".jpg");
-            img.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFile));
-            startActivityForResult(img, 1);
+            dispatchTakePictureIntent();
+//            Intent img = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//            imageFile = new File(Environment.getExternalStorageDirectory()
+//                    .getAbsoluteFile() + "/" + getTime() + ".jpg");
+//            img.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFile));
+//            startActivityForResult(img, 1);
         }
         if (valueOfFlag.equals("video")) {
             c_img.setVisibility(View.GONE);
             v_video.setVisibility(View.VISIBLE);
-            Intent video = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-            videoFile = new File(Environment.getExternalStorageDirectory()
-                    .getAbsoluteFile() + "/" + getTime() + ".mp4");
-            video.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(videoFile));
-            startActivityForResult(video, 2);
+            dispatchTakeVideoIntent();
+//            Intent video = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+//            videoFile = new File(Environment.getExternalStorageDirectory()
+//                    .getAbsoluteFile() + "/" + getTime() + ".mp4");
+//            video.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(videoFile));
+//            startActivityForResult(video, 2);
         }
 
+    }
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        "com.example.android.fileprovider",
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, 1);
+            }
+        }
+    }
+
+    private void dispatchTakeVideoIntent() {
+        Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+        if (takeVideoIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File videoFile = null;
+            try {
+                videoFile = createVideoFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+            }
+            // Continue only if the File was successfully created
+            if (videoFile != null) {
+                Uri videoURI = FileProvider.getUriForFile(this,
+                        "com.example.android.fileprovider",
+                        videoFile);
+                takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, videoURI);
+                startActivityForResult(takeVideoIntent, 2);
+            }
+        }
+    }
+
+
+    private String getAlbumName() {
+        return getString(R.string.album_name);
     }
 
     public void addDB() {
@@ -164,21 +233,114 @@ public class AddContent extends AppCompatActivity implements View.OnClickListene
         String str = format.format(curDate);
         return str;
     }
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        mCurrentPhotoPath = image.getAbsolutePath();
+        imageFile = image;
+        return image;
+    }
+
+    private File createVideoFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "AVI_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_MOVIES);
+        File video = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".mp4",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        mCurrentVideoPath = video.getAbsolutePath();
+        videoFile = video;
+        return video;
+    }
+
+    private void setPic() {
+        // Get the dimensions of the View
+        int targetW = c_img.getWidth()+1;
+        int targetH = c_img.getHeight()+1;
+
+        // Get the dimensions of the bitmap
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
+        int photoW = bmOptions.outWidth;
+        int photoH = bmOptions.outHeight;
+
+        // Determine how much to scale down the image
+        int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+
+        // Decode the image file into a Bitmap sized to fill the View
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = scaleFactor;
+        bmOptions.inPurgeable = true;
+
+        Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
+        c_img.setImageBitmap(bitmap);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // TODO Auto-generated method stub
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
-            Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
-            c_img.setImageBitmap(bitmap);
+            setPic();
+//                Bundle extras = data.getExtras();
+//                Bitmap imageBitmap = (Bitmap) extras.get("data");
+//                c_img.setImageBitmap(imageBitmap);
+//                setPic();
+//                galleryAddPic();
+
+
+//            Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
+//            c_img.setImageBitmap(bitmap);
         }
         if (requestCode == 2) {
-            v_video.setVideoURI(Uri.fromFile(videoFile));
+            Uri videoUri = data.getData();
+            v_video.setVideoURI(videoUri);
+//            v_video.setVideoURI(Uri.fromFile(videoFile));
             v_video.start();
         }
     }
 
+    // Some lifecycle callbacks so that the image can survive orientation change
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putParcelable(BITMAP_STORAGE_KEY, mImageBitmap);
+        outState.putParcelable(VIDEO_STORAGE_KEY, mVideoUri);
+        outState.putBoolean(IMAGEVIEW_VISIBILITY_STORAGE_KEY, (mImageBitmap != null) );
+        outState.putBoolean(VIDEOVIEW_VISIBILITY_STORAGE_KEY, (mVideoUri != null) );
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mImageBitmap = savedInstanceState.getParcelable(BITMAP_STORAGE_KEY);
+        mVideoUri = savedInstanceState.getParcelable(VIDEO_STORAGE_KEY);
+        mImageView.setImageBitmap(mImageBitmap);
+        mImageView.setVisibility(
+                savedInstanceState.getBoolean(IMAGEVIEW_VISIBILITY_STORAGE_KEY) ?
+                        ImageView.VISIBLE : ImageView.INVISIBLE
+        );
+        mVideoView.setVideoURI(mVideoUri);
+        mVideoView.setVisibility(
+                savedInstanceState.getBoolean(VIDEOVIEW_VISIBILITY_STORAGE_KEY) ?
+                        ImageView.VISIBLE : ImageView.INVISIBLE
+        );
+    }
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 

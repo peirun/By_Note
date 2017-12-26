@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -113,13 +114,16 @@ public class ModifyNote extends AppCompatActivity {
 
     public void initView(String content, String imageUri, String videoUri, String folder_name) {
 
-        if(imageUri == null){
-            m_img.setVisibility(View.GONE);
+        if(! imageUri.equals("null")){
+            m_img.setVisibility(View.VISIBLE);
         }
-        if(videoUri == null){
-            v_video.setVisibility(View.GONE);
+        if(! videoUri.equals("null")){
+            v_video.setVisibility(View.VISIBLE);
         }
         editText.setText(content);
+//        m_img.setImageBitmap(getImageThumbnail(imageUri, 200, 200));
+//        v_video.setImageBitmap(getVideoThumbnail(videoUri, 200, 200,
+//                MediaStore.Images.Thumbnails.MICRO_KIND));
         Bitmap bitmap = BitmapFactory.decodeFile(imageUri);
         m_img.setImageBitmap(bitmap);
         v_video.setVideoURI(Uri.parse(videoUri));
@@ -168,6 +172,39 @@ public class ModifyNote extends AppCompatActivity {
 
         }
         cursor.close();
+    }
+
+    public Bitmap getImageThumbnail(String uri, int width, int height) {
+        Bitmap bitmap = null;
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        bitmap = BitmapFactory.decodeFile(uri, options);
+        options.inJustDecodeBounds = false;
+        int beWidth = options.outWidth / width;
+        int beHeight = options.outHeight / height;
+        int be = 1;
+        if (beWidth < beHeight) {
+            be = beWidth;
+        } else {
+            be = beHeight;
+        }
+        if (be <= 0) {
+            be = 1;
+        }
+        options.inSampleSize = be;
+        bitmap = BitmapFactory.decodeFile(uri, options);
+        bitmap = ThumbnailUtils.extractThumbnail(bitmap, width, height,
+                ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
+        return bitmap;
+    }
+
+    private Bitmap getVideoThumbnail(String uri, int width, int height, int kind) {
+        Bitmap bitmap = null;
+        bitmap = ThumbnailUtils.createVideoThumbnail(uri, kind);
+        bitmap = ThumbnailUtils.extractThumbnail(bitmap, width, height,
+                ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
+
+        return bitmap;
     }
 
     @Override
