@@ -268,9 +268,6 @@ public class AddContent extends AppCompatActivity implements View.OnClickListene
     }
 
     private void setPic() {
-        // Get the dimensions of the View
-        int targetW = c_img.getWidth()+1;
-        int targetH = c_img.getHeight()+1;
 
         // Get the dimensions of the bitmap
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
@@ -279,12 +276,8 @@ public class AddContent extends AppCompatActivity implements View.OnClickListene
         int photoW = bmOptions.outWidth;
         int photoH = bmOptions.outHeight;
 
-        // Determine how much to scale down the image
-        int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
-
         // Decode the image file into a Bitmap sized to fill the View
         bmOptions.inJustDecodeBounds = false;
-        bmOptions.inSampleSize = scaleFactor;
         bmOptions.inPurgeable = true;
 
         Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
@@ -297,15 +290,6 @@ public class AddContent extends AppCompatActivity implements View.OnClickListene
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             setPic();
-//                Bundle extras = data.getExtras();
-//                Bitmap imageBitmap = (Bitmap) extras.get("data");
-//                c_img.setImageBitmap(imageBitmap);
-//                setPic();
-//                galleryAddPic();
-
-
-//            Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
-//            c_img.setImageBitmap(bitmap);
         }
         if (requestCode == 2) {
             Uri videoUri = data.getData();
