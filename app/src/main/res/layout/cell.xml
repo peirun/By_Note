@@ -12,17 +12,22 @@
             android:id="@+id/list_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingTop="25dp"
+            android:paddingLeft="5dp"
             android:contentDescription="this is image" />
 
         <ImageView
             android:id="@+id/list_video"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="0.1dp"
+            android:paddingTop="25dp"
             android:contentDescription="this is video" />
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="100dp"
+            android:paddingLeft="5dp"
             android:gravity="center_vertical"
             android:orientation="vertical" >
 

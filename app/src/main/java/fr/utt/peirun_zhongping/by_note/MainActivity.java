@@ -197,7 +197,9 @@ public class MainActivity extends AppCompatActivity
             getSupportActionBar().setTitle("Starred");
             folder_name = "Note";
         } else if (id == R.id.nav_deconnection) {
-
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
