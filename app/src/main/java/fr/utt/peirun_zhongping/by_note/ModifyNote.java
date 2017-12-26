@@ -106,12 +106,13 @@ public class ModifyNote extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
+    // delete data
     private void deleteDB() {
         dbWriter.delete(NoteDB.TABLE_NAME,
                 "note_id=" + note_id, null);
     }
 
+    // ini view
     public void initView(String content, String imageUri, String videoUri, String folder_name) {
 
         if(! imageUri.equals("null")){
@@ -145,6 +146,7 @@ public class ModifyNote extends AppCompatActivity {
         return str;
     }
 
+    // set image or video after using camera
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // TODO Auto-generated method stub
@@ -158,6 +160,7 @@ public class ModifyNote extends AppCompatActivity {
             v_video.start();
         }
     }
+    // select data by different choices
     public void selectDB(int noteId) {
         cursor = dbReader.query(NoteDB.TABLE_NAME, null, NoteDB.NOTE_ID + "=?", new String[] {String.valueOf(noteId)}, null,
                 null, null);
@@ -172,39 +175,6 @@ public class ModifyNote extends AppCompatActivity {
 
         }
         cursor.close();
-    }
-
-    public Bitmap getImageThumbnail(String uri, int width, int height) {
-        Bitmap bitmap = null;
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        bitmap = BitmapFactory.decodeFile(uri, options);
-        options.inJustDecodeBounds = false;
-        int beWidth = options.outWidth / width;
-        int beHeight = options.outHeight / height;
-        int be = 1;
-        if (beWidth < beHeight) {
-            be = beWidth;
-        } else {
-            be = beHeight;
-        }
-        if (be <= 0) {
-            be = 1;
-        }
-        options.inSampleSize = be;
-        bitmap = BitmapFactory.decodeFile(uri, options);
-        bitmap = ThumbnailUtils.extractThumbnail(bitmap, width, height,
-                ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
-        return bitmap;
-    }
-
-    private Bitmap getVideoThumbnail(String uri, int width, int height, int kind) {
-        Bitmap bitmap = null;
-        bitmap = ThumbnailUtils.createVideoThumbnail(uri, kind);
-        bitmap = ThumbnailUtils.extractThumbnail(bitmap, width, height,
-                ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
-
-        return bitmap;
     }
 
     @Override

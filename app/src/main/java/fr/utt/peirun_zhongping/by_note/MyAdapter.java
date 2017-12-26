@@ -44,6 +44,7 @@ public class MyAdapter extends BaseAdapter {
         return position;
     }
 
+    // set view
     public View getView(int position, View convertView, ViewGroup parent) {
 
         LayoutInflater inflater = LayoutInflater.from(context);

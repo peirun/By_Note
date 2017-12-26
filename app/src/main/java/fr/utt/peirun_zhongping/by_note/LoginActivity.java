@@ -89,10 +89,6 @@ public class LoginActivity extends AppCompatActivity {
                 cursor.moveToFirst();
                 session.createUserLoginSession(cursor.getInt(cursor.getColumnIndex(UserDB.USER_ID)), cursor.getString(cursor.getColumnIndex(UserDB.USER_NAME)),
                         cursor.getString(cursor.getColumnIndex(UserDB.EMAIL)));
-//                user = User.getInstance();
-//                user.setUserID(cursor.getInt(cursor.getColumnIndex(UserDB.USER_ID)));
-//                user.setUserName(cursor.getString(cursor.getColumnIndex(UserDB.USER_NAME)));
-//                user.setUserEmail(cursor.getString(cursor.getColumnIndex(UserDB.EMAIL)));
                 Toast.makeText(getApplicationContext(), "Sign in successfully", Toast.LENGTH_SHORT).show();
                 return true;
             }

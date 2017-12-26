@@ -42,6 +42,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
+    // add user
     public boolean addUser() {
         try {
             ContentValues user = new ContentValues();

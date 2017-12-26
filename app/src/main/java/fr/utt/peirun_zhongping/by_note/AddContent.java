@@ -148,25 +148,16 @@ public class AddContent extends AppCompatActivity implements View.OnClickListene
             c_img.setVisibility(View.VISIBLE);
             v_video.setVisibility(View.GONE);
             dispatchTakePictureIntent();
-//            Intent img = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//            imageFile = new File(Environment.getExternalStorageDirectory()
-//                    .getAbsoluteFile() + "/" + getTime() + ".jpg");
-//            img.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFile));
-//            startActivityForResult(img, 1);
         }
         if (valueOfFlag.equals("video")) {
             c_img.setVisibility(View.GONE);
             v_video.setVisibility(View.VISIBLE);
             dispatchTakeVideoIntent();
-//            Intent video = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-//            videoFile = new File(Environment.getExternalStorageDirectory()
-//                    .getAbsoluteFile() + "/" + getTime() + ".mp4");
-//            video.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(videoFile));
-//            startActivityForResult(video, 2);
         }
 
     }
 
+    // deal with picture
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
@@ -189,6 +180,7 @@ public class AddContent extends AppCompatActivity implements View.OnClickListene
         }
     }
 
+    // deal with video
     private void dispatchTakeVideoIntent() {
         Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
         if (takeVideoIntent.resolveActivity(getPackageManager()) != null) {
@@ -215,6 +207,7 @@ public class AddContent extends AppCompatActivity implements View.OnClickListene
         return getString(R.string.album_name);
     }
 
+    // add data
     public void addDB() {
         ContentValues cv = new ContentValues();
         cv.put(NoteDB.CONTENT, editText.getText().toString());
@@ -227,12 +220,14 @@ public class AddContent extends AppCompatActivity implements View.OnClickListene
         dbWriter.insert(NoteDB.TABLE_NAME, null, cv);
     }
 
+    // get current time
     private String getTime() {
         SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date curDate = new Date();
         String str = format.format(curDate);
         return str;
     }
+    // create image file
     private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -250,6 +245,7 @@ public class AddContent extends AppCompatActivity implements View.OnClickListene
         return image;
     }
 
+    // create video file
     private File createVideoFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -267,6 +263,7 @@ public class AddContent extends AppCompatActivity implements View.OnClickListene
         return video;
     }
 
+    // set picture
     private void setPic() {
 
         // Get the dimensions of the bitmap

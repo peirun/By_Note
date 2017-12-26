@@ -95,6 +95,7 @@ public class NoteFragment extends Fragment {
         }
     }
 
+    // ini view
     public void initView() {
         lv = (ListView) view.findViewById(R.id.list);
         noteDB = new NoteDB(getActivity());
@@ -117,6 +118,7 @@ public class NoteFragment extends Fragment {
         });
     }
 
+    // choose data by different data
     public void selectDB() {
         if(mParam1 == "Note" || mParam1 == null){
             cursor = dbReader.query(NoteDB.TABLE_NAME, null, null, null, null,
